@@ -22,6 +22,19 @@ export default function useWordle(answer) {
       return;
     }
 
+    if (key === "Enter") {
+      if (moves > 5) {
+        return;
+      }
+      if (history.includes(currentGuess)) {
+        return;
+      }
+      if (currentGuess.length !== 5) {
+        return;
+      }
+      formatGuess();
+    }
+
     if (/^[A-Za-z]$/.test(key)) {
       if (currentGuess.length < 5) {
         setCurrentGuess((prev) => {
