@@ -3,7 +3,7 @@ import { useState } from "react";
 export default function useWordle(answer) {
   const [moves, setMoves] = useState(0);
   const [currentGuess, setCurrentGuess] = useState("");
-  const [guesses, setGuesses] = useState([]); // each guess is an array
+  const [guesses, setGuesses] = useState([...Array(6)]); // each guess is an array
   const [history, setHistory] = useState([]); // each guess is a string
   const [isCorrect, setIsCorrect] = useState(false);
 
@@ -33,7 +33,23 @@ export default function useWordle(answer) {
   }
 
   //adding new guess to array
-  function addNewGuess() {}
+  function addNewGuess(colorMap) {
+    if (currentGuess === answer) {
+      setIsCorrect(true);
+    }
+    setGuesses((prevGuesses) => {
+      let newGuesses = [...prevGuesses];
+      newGuesses[moves] = colorMap;
+      return newGuesses;
+    });
+    setHistory((prevHistory) => {
+      return [...prevHistory, currentGuess];
+    });
+    setMoves((prevMoves) => {
+      return prevMoves + 1;
+    });
+    setCurrentGuess("");
+  }
 
   //handling keypress
   function handleKeyUp({ key }) {
@@ -55,7 +71,7 @@ export default function useWordle(answer) {
         return;
       }
       const colorMap = formatGuess();
-      console.log(colorMap);
+      addNewGuess(colorMap);
     }
 
     if (/^[A-Za-z]$/.test(key)) {
