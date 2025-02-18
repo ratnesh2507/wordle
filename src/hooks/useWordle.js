@@ -8,7 +8,29 @@ export default function useWordle(answer) {
   const [isCorrect, setIsCorrect] = useState(false);
 
   //converting a letter into an obj with key and color attrs
-  function formatGuess() {}
+  function formatGuess() {
+    let answerArray = [...answer];
+    let formattedGuess = [...currentGuess].map((l) => {
+      return { key: l, color: "grey" };
+    });
+
+    //green
+    formattedGuess.forEach((l, i) => {
+      if (answerArray[i] === l.key) {
+        formattedGuess[i].color = "green";
+        answerArray[i] = null;
+      }
+    });
+
+    //yellow
+    formattedGuess.forEach((l, i) => {
+      if (answerArray.includes(l.key) && l.color !== "green") {
+        formattedGuess[i].color = "yellow";
+        answerArray[answerArray.indexOf(l.key)] = null;
+      }
+    });
+    return formattedGuess;
+  }
 
   //adding new guess to array
   function addNewGuess() {}
@@ -32,7 +54,8 @@ export default function useWordle(answer) {
       if (currentGuess.length !== 5) {
         return;
       }
-      formatGuess();
+      const colorMap = formatGuess();
+      console.log(colorMap);
     }
 
     if (/^[A-Za-z]$/.test(key)) {
