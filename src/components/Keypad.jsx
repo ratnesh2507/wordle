@@ -17,7 +17,6 @@ function Keypad({ usedKeys }) {
       {letters &&
         letters.map((l) => {
           const color = usedKeys[l.key];
-          console.log(color);
           return (
             <div key={l.key} className={color}>
               {l.key.toUpperCase()}
