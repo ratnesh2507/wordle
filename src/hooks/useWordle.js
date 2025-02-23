@@ -79,7 +79,8 @@ export default function useWordle(answer) {
   }
 
   //handling keypress
-  function handleKeyUp({ key }) {
+  function handleKeyUp(eventOrKey) {
+    let key = typeof eventOrKey === "string" ? eventOrKey : eventOrKey.key;
     if (key === "Backspace") {
       setCurrentGuess((prev) => {
         return prev.slice(0, -1);

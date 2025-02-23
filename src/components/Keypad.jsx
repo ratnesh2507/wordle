@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-function Keypad({ usedKeys }) {
+function Keypad({ usedKeys, onKeyPress }) {
   const [letters, setLetters] = useState(null);
 
   useEffect(() => {
@@ -18,7 +18,19 @@ function Keypad({ usedKeys }) {
         letters.map((l) => {
           const color = usedKeys[l.key];
           return (
-            <div key={l.key} className={color}>
+            <div
+              key={l.key}
+              className={color}
+              onClick={() => {
+                let keyValue =
+                  l.key === "Ent"
+                    ? "Enter"
+                    : l.key === "Back"
+                    ? "Backspace"
+                    : l.key;
+                onKeyPress(keyValue);
+              }}
+            >
               {l.key.toUpperCase()}
             </div>
           );
