@@ -6,6 +6,7 @@ export default function useWordle(answer) {
   const [guesses, setGuesses] = useState([...Array(6)]); // each guess is an array
   const [history, setHistory] = useState([]); // each guess is a string
   const [isCorrect, setIsCorrect] = useState(false);
+  const [usedKeys, setUsedKeys] = useState({});
 
   //converting a letter into an obj with key and color attrs
   function formatGuess() {
@@ -48,6 +49,32 @@ export default function useWordle(answer) {
     setMoves((prevMoves) => {
       return prevMoves + 1;
     });
+    setUsedKeys((prevUsedKeys) => {
+      let newKeys = { ...prevUsedKeys };
+      colorMap.forEach((l) => {
+        const currentColor = newKeys[l.key];
+        //green
+        if (l.color === "green") {
+          newKeys[l.key] = "green";
+          return;
+        }
+        //yellow
+        if (l.color === "yellow" && currentColor !== "green") {
+          newKeys[l.key] = "yellow";
+          return;
+        }
+        //grey
+        if (
+          l.color === "grey" &&
+          currentColor !== "yellow" &&
+          currentColor !== "green"
+        ) {
+          newKeys[l.key] = "grey";
+          return;
+        }
+      });
+      return newKeys;
+    });
     setCurrentGuess("");
   }
 
@@ -83,5 +110,5 @@ export default function useWordle(answer) {
     }
   }
 
-  return { moves, currentGuess, guesses, isCorrect, handleKeyUp };
+  return { moves, currentGuess, guesses, isCorrect, usedKeys, handleKeyUp };
 }
