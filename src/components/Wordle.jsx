@@ -25,14 +25,12 @@ function Wordle({ answer }) {
     return () => window.removeEventListener("keyup", handleKeyUp);
   }, [handleKeyUp, isCorrect, moves]);
 
-  useEffect(() => {
-    console.log(guesses, moves, isCorrect);
-  }, [guesses, moves, isCorrect]);
+  // useEffect(() => {
+  //   console.log(guesses, moves, isCorrect);
+  // }, [guesses, moves, isCorrect]);
 
   return (
     <div>
-      <div>Answer is: {answer}</div>
-      <div>Current Guess: {currentGuess}</div>
       <Grid currentGuess={currentGuess} guesses={guesses} moves={moves} />
       <Keypad usedKeys={usedKeys} />
       {showModal && (
